@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Electrical services · Book Now</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body { background-color: #001f3f; color: #fff; font-family: Arial, sans-serif; margin: 0; }
+    h1 { text-align: center; color: #fff; margin-top: 2rem; }
+    .stylist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 2rem 5%;
+    }
+    .card {
+      background: #003366;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: scale(1.02); }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .card h3 { margin: 10px 0 5px; color: #fff; }
+    .card button {
+      margin-top: 10px;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+    .card button:hover { background-color: #e73370; }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      text-align: left;
+      color: #000;
+    }
+    .modal-content h2 { margin-top: 0; }
+    .modal-content ul { padding-left: 20px; }
+    .modal-content button {
+      margin-top: 20px;
+      background-color: #2196F3;
+      color: #fff;
+    }
+    .close {
+      float: right;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* Nav styles from LuxLiving */
+    .navbar{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:1rem 5%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1);
+      position:sticky;top:0;z-index:1000}
+    .logo{font-size:2rem;font-weight:bold;text-decoration:none;color:#333}
+    .logo span{color:#0d00ff}
+    .nav-links{list-style:none;display:flex;gap:1.5rem}
+    .nav-links a{text-decoration:none;color:#333;font-weight:500;transition:.3s}
+    .nav-links a:hover,.nav-links a.active{color:#0d00ff}
+    .btn-signin{
+      padding:.5rem 1.2rem;border:1px solid #0d00ff;border-radius:25px;
+      text-decoration:none;color:#0d00ff;transition:.3s}
+    .btn-signin:hover{background:#0d00ff;color:#fff}
+    .auth-buttons{display:flex;gap:10px}
+
+    footer{text-align:center;padding:2rem 0;margin-top:4rem;background:#000;color:#aaa}
+    .social-icons a{color:#aaa;margin:0 10px;font-size:1.2rem;text-decoration:none}
+    .social-icons a:hover{color:#fff}
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <a href="/" class="logo">LuxLiving<span> Services</span></a>
+
+    <div class="nav-center">
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/nowhiring">Now Hiring</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="auth-buttons">
+      <a href="/signup" class="btn-signin">Sign Up</a>
+      <a href="/signin" class="btn-signin">Sign In</a>
+    </div>
+  </header>
+
+
+  <!-- HAIR SERVICE SECTION -->
+  <h1>Book Your service </h1>
+
+  <div class="stylist-grid">
+    <div class="card">
+      <img src="https://via.placeholder.com/300x200?text=Stylist+1" alt="Service 1">
+      <h3>Precision Electric</h3>
+      <p></p>
+      <button onclick="showModal('Precision Electric', ['$25/hr'])">View Services</button>
+    </div>
+
+    <div class="card">
+      <img src="https://via.placeholder.com/300x200?text=Stylist+2" alt="Service 2">
+      <h3>PipeTech Pros</h3>
+      <p></p>
+      <button onclick="showModal('PipeTech Pros'['$30/hr'])">View Services</button>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div id="serviceModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="stylistName"></h2>
+      <ul id="serviceList"></ul>
+      <button onclick="alert('Redirecting to booking page...')">Book Now</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-icons">
+      <a href="https://instagram.com/sakchaser.lj" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.tiktok.com/@sakchaser_.lj" target="_blank"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.linkedin.com/in/landen-jackson-6125b3337/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <p>&copy; 2025 LuxLiving LLC. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    function showModal(name, services) {
+      document.getElementById("stylistName").textContent = name;
+      const list = document.getElementById("serviceList");
+      list.innerHTML = '';
+      services.forEach(service => {
+        const li = document.createElement("li");
+        li.textContent = service;
+        list.appendChild(li);
+      });
+      document.getElementById("serviceModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("serviceModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("serviceModal");
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>

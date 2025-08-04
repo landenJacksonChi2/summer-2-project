@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account · LuxLiving</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #001f3f; /* Navy Blue */
+      color: #ffffff;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .logo span {
+      color: #0d00ff;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #0d00ff;
+    }
+
+    .btn-signin {
+      padding: 0.5rem 1.2rem;
+      border: 1px solid #0d00ff;
+      border-radius: 25px;
+      text-decoration: none;
+      color: #0d00ff;
+      transition: all 0.3s;
+    }
+
+    .btn-signin:hover {
+      background: #0d00ff;
+      color: #fff;
+    }
+
+    .sign-up {
+      padding: 5%;
+      max-width: 500px;
+      margin: 5% auto;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    .sign-up form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sign-up h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .sign-up input {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .sign-up button {
+      padding: 0.75rem;
+      margin-top: 1rem;
+      background: #ffffff;
+      color: #001f3f;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sign-up button:hover {
+      background: #e0e0e0;
+    }
+
+    .sign-up p {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .sign-up a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER: updated nav layout -->
+ 
+  <header class="navbar">
+    <a href="/" class="logo">LuxLiving<span> Services</span></a>
+
+    <div class="nav-center">
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/nowhiring">Now Hiring</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="auth-buttons">
+      <a href="/signup" class="btn-signin">Sign Up</a>
+      <a href="/signin" class="btn-signin">Sign In</a>
+    </div>
+  </header>
+
+  <!-- SIGN UP FORM SECTION -->
+  <section class="sign-up">
+    <form id="signup-form">
+      <h2>Sign Up</h2>  
+      <input type="text" id="signup-username" placeholder="Username" required />
+      <input type="email" id="signup-email" placeholder="Email" required />
+      <input type="password" id="signup-password" placeholder="Password" required />
+      <label>
+        <input type="checkbox" id="show-signup-pass" /> Show Password
+      </label>
+      <button type="submit">Sign Up</button>
+      <p>Already have an account? <a href="/signin">Click here to sign in!</a></p>
+      <p id="signup-message"></p>
+    </form>
+  </section>
+
+  <script>
+   document.getElementById('signup-form').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const username = document.getElementById('signup-username').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+
+  const msg = document.getElementById('signup-message');
+
+  try {
+    const res = await fetch('/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      msg.textContent = ` ${data.message}`;
+      return;
+    }
+
+    alert(' Account created successfully!');
+    window.location.href = 'profile.html';
+  } catch (err) {
+    msg.textContent = 'Something went wrong.';
+  }
+});
+
+  </script>
+</body>
+</html>

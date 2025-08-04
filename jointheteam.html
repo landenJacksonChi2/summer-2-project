@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join the Team · LuxLiving</title>
+  <style>
+    /* ---------- GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #001f3f; /* Navy Blue */
+      color: #ffffff;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* ---------- NAVBAR ---------- */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background-color: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .logo span {
+      color: #0d00ff;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin: 0 auto;
+    }
+
+    .nav-links li a {
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a:hover {
+      color: #0d00ff;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .btn-signin {
+      padding: 0.4rem 1rem;
+      border: 1px solid #0d00ff;
+      border-radius: 25px;
+      color: #0d00ff;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-signin:hover {
+      background-color: #0d00ff;
+      color: white;
+    }
+
+    /* ---------- FORM CARD ---------- */
+    .apply-card {
+      max-width: 600px;
+      margin: 4rem auto;
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      color: #000;
+    }
+
+    .apply-card h1 {
+      text-align: center;
+      color: #001f3f;
+      margin-bottom: 1.5rem;
+    }
+
+    .apply-card label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    .apply-card input,
+    .apply-card textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.4rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .apply-card textarea {
+      resize: vertical;
+    }
+
+    .terms {
+      display: flex;
+      align-items: center;
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
+      gap: 0.5rem;
+    }
+
+    .apply-card button {
+      width: 100%;
+      background-color: #001f3f;
+      color: white;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .apply-card button:hover {
+      background-color: #003366;
+    }
+
+    .msg {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .auth-buttons {
+        flex-direction: column;
+      }
+
+      .apply-card {
+        margin: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <a href="/" class="logo">LuxLiving<span> Services</span></a>
+
+    <div class="nav-center">
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/nowhiring">Now Hiring</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="auth-buttons">
+      <a href="/signup" class="btn-signin">Sign Up</a>
+      <a href="/signin" class="btn-signin">Sign In</a>
+    </div>
+  </header>
+
+
+  <!-- APPLICATION FORM -->
+  <form id="apply-form" method="POST" action="/api/apply" enctype="multipart/form-data" class="apply-card">
+    <h1>Join the Team</h1>
+
+    <label for="fullname">Full Name</label>
+    <input id="fullname" name="fullname" type="text" required />
+
+    <label for="email">Email Address</label>
+    <input id="email" name="email" type="email" required />
+
+    <label for="phone">Phone Number</label>
+    <input id="phone" name="phone" type="tel" required />
+
+    <label for="service">Which service(s) do you provide?</label>
+    <input id="service" name="service" type="text" placeholder="e.g., Plumbing, Hair Styling" required />
+
+    <label for="experience">Tell us about your experience</label>
+    <textarea id="experience" name="experience" rows="4" placeholder="Write about your background..." required></textarea>
+
+    <label for="resume">Upload Resume or ID (PDF or Image)</label>
+    <input id="resume" name="resume" type="file" accept=".pdf,.png,.jpg,.jpeg" required />
+
+    <div class="terms">
+      <input type="checkbox" id="agree" required />
+      <label for="agree">I confirm all information provided is accurate.</label>
+    </div>
+
+    <button type="submit">Submit Application</button>
+    <div class="msg" id="apply-message"></div>
+  </form>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About · LuxLiving Services</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #001f3f;
+      color: #ffffff;
+    }
+
+ .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background-color: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .logo span {
+      color: #0d00ff;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin: 0 auto;
+    }
+
+    .nav-links li a {
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a:hover {
+      color: #0d00ff;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .btn-signin {
+      padding: 0.4rem 1rem;
+      border: 1px solid #0d00ff;
+      border-radius: 25px;
+      color: #0d00ff;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-signin:hover {
+      background-color: #0d00ff;
+      color: white;
+    }
+
+    main.about {
+      max-width: 900px;
+      margin: auto;
+      padding: 4rem 5%;
+      line-height: 1.8;
+    }
+
+    h1, h2 {
+      color: #ffffff;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      background-color: #000;
+      color: #aaa;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-center {
+        justify-content: flex-start;
+        width: 100%;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+        padding-top: 1rem;
+      }
+
+      .auth-buttons {
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/" class="logo">LuxLiving<span> Services</span></a>
+
+    <div class="nav-center">
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/nowhiring">Now Hiring</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="auth-buttons">
+      <a href="/signup" class="btn-signin">Sign Up</a>
+      <a href="/signin" class="btn-signin">Sign In</a>
+    </div>
+  </header>
+
+  <main class="about">
+    <section>
+      <h1>About LuxLiving</h1>
+      <p>
+        LuxLiving Services — <strong>Trusted Hands. Elevated Living.</strong><br>
+        LuxLiving is your one-stop platform for trusted, vetted professionals in cleaning, babysitting, pet care, plumbing, grooming, and more. No more searching or guessing. Just quality help, right when you need it.
+      </p>
+    </section>
+
+    <section>
+      <h2>Meet the Team</h2>
+      <p>
+        Behind LuxLiving is a passionate team committed to making life easier for families, busy professionals, and everyday users. From service coordinators to tech support, we’re here to deliver a seamless experience every time.
+      </p>
+    </section>
+
+    <section>
+      <h2>🏡 Home Services</h2>
+      <ul>
+        <li><strong>Housekeeping:</strong> Regular, deep, and event cleaning.</li>
+        <li><strong>Plumbing:</strong> Fast, expert plumbing help.</li>
+        <li><strong>Landscaping:</strong> Outdoor care and lawn maintenance.</li>
+      </ul>
+
+      <h2>👶 Family Services</h2>
+      <ul>
+        <li><strong>Babysitting:</strong> Trusted caregivers for your children.</li>
+        <li><strong>Dog Sitting:</strong> Loving pet care when you're away.</li>
+      </ul>
+
+      <h2>💇 Grooming & Beauty</h2>
+      <ul>
+        <li><strong>Hair Stylists:</strong> Cuts, color, and styling for every occasion.</li>
+        <li><strong>Barbers:</strong> Sharp, stylish, and professional grooming.</li>
+      </ul>
+
+      <h2>⚡ Tech & Electrical</h2>
+      <ul>
+        <li><strong>Electricians:</strong> Home upgrades and repairs done safely.</li>
+        <li><strong>Tech Support:</strong> Smart home setup and digital help, fast.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Why LuxLiving?</h2>
+      <p>
+        We’re not just about services—we’re about trust, care, and convenience. Our goal is to elevate everyday life with on-demand support tailored to you.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 LuxLiving LLC. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

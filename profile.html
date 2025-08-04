@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Profile</title>
+  <style>
+    body { font-family: Arial; padding: 20px; text-align: center; }
+    input { margin: 8px; padding: 8px; width: 200px; }
+    button { padding: 10px 20px; margin: 5px; }
+  </style>
+  
+ <header class="navbar">
+    <a href="/" class="logo">LuxLiving<span> Services</span></a>
+
+    <div class="nav-center">
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/nowhiring">Now Hiring</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="auth-buttons">
+      <a href="/signup" class="btn-signin">Sign Up</a>
+      <a href="/signin" class="btn-signin">Sign In</a>
+    </div>
+  </header>
+
+
+</head>
+<body>
+  <h1>Your Profile</h1>
+  <div id="profile-area">
+    <p><strong>Username:</strong> <span id="profile-username"></span></p>
+    <p><strong>Email:</strong> <span id="profile-email"></span></p>
+<h1>If you don't want to update information, just click a page up top!!</h1>
+    <h3>Edit Info</h3>
+    <input type="text" id="edit-username" placeholder="New Username" />
+    <input type="email" id="edit-email" placeholder="New Email" />
+    <input type="password" id="edit-password" placeholder="New Password" />
+    <button onclick="updateProfile()">Update Profile</button>
+    <br>
+    <button onclick="deleteProfile()" style="background:red;color:white;">Delete My Account</button>
+  </div>
+
+  <script>
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    let allUsers = JSON.parse(localStorage.getItem("userAccounts")) || [];
+
+    if (!currentUser) {
+      alert("⚠️ You're not logged in.");
+      window.location.href = "signin.html";
+    } else {
+      document.getElementById("profile-username").innerText = currentUser.username;
+      document.getElementById("profile-email").innerText = currentUser.email;
+    }
+
+    function updateProfile() {
+      const newUsername = document.getElementById("edit-username").value.trim();
+      const newEmail = document.getElementById("edit-email").value.trim();
+      const newPassword = document.getElementById("edit-password").value;
+
+      if (!newUsername && !newEmail && !newPassword) {
+        alert("Nothing to update.");
+        return;
+      }
+
+      allUsers = allUsers.map(user => {
+        if (user.username === currentUser.username || user.email === currentUser.email) {
+          if (newUsername) user.username = newUsername;
+          if (newEmail) user.email = newEmail;
+          if (newPassword) user.password = newPassword;
+          currentUser = user;
+        }
+        return user;
+      });
+
+      localStorage.setItem("userAccounts", JSON.stringify(allUsers));
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      alert("✅ Profile updated!");
+      window.location.reload();
+    }
+
+    function deleteProfile() {
+      if (!confirm("Are you sure you want to delete your account? This cannot be undone.")) return;
+
+      allUsers = allUsers.filter(user =>
+        user.username !== currentUser.username && user.email !== currentUser.email
+      );
+
+      localStorage.setItem("userAccounts", JSON.stringify(allUsers));
+      localStorage.removeItem("currentUser");
+
+      alert("🗑️ Account deleted.");
+      window.location.href = "signup.html";
+    }
+  </script>
+</body>
+</html>
