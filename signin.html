@@ -163,59 +163,19 @@
     </div>
   </header>
 
-  <!-- LOGIN FORM -->
-  <section class="login-form">
-    <form id="login-form" method="POST">
-      <h2>Sign In</h2>
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <label>
-        <input type="checkbox" id="show-password" /> Show Password
-      </label>
-      <button type="submit">Login</button>
-      <div id="error-message"></div>
-      <p>Don’t have an account? <a href="/signup">Create one here</a></p>
-    </form>
-  </section>
-
-  <!-- SCRIPT -->
-  <script>
-    // Toggle password visibility
-    document.getElementById('show-password').addEventListener('change', function () {
-      const passInput = document.getElementById('password');
-      passInput.type = this.checked ? 'text' : 'password';
-    });
-
-    // Handle login form submission
-    document.getElementById('login-form').addEventListener('submit', async e => {
-      e.preventDefault();
-
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
-      const error = document.getElementById('error-message');
-
-      try {
-        const res = await fetch('/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password })
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          error.textContent = data.message || 'Invalid credentials.';
-          return;
-        }
-
-        alert('Login successful!');
-        window.location.href = 'profile.html';
-      } catch (err) {
-        error.textContent = 'Something went wrong.';
-      }
-    });
-  </script>
+<!-- LOGIN FORM -->
+«section class="login-form">
+<form id="login-form" method="POST" action="/api/login">
+<h2>Sign In</h2> 
+<inpu pe="text" name="username" placeholder="Username" required /> 
+<input type="password name="password" placeholder="Password" required /> 
+<label>
+<input type="checkbox" id="show-password" /> Show Password 
+</label>
+ <button type="submit">Login</button> 
+<div id="error-message"></div>
+<p>Don't have an account? <a href="/signup">Create one here</a></p>
+ </form>
+ </section>
 </body>
-</html>
+ </html>

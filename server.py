@@ -3,6 +3,8 @@ import os
 import urllib.parse
 import hashlib
 import sqlite3
+import secrets
+import time
 conn = sqlite3.connect('login.db')
 
 ROUTES = {}
@@ -112,39 +114,89 @@ def parse_form_data(request):
     # Decode URL-encoded form data
     return dict(urllib.parse.parse_qsl(body))
 
+import sqlite3
+
 # This route serves login requests
 @route("/api/login")
 def login(request):
-    # This part extracts (parses) the data from the request
+    # Extract form data
     params = parse_form_data(request)
     username = params.get('username')
     password = params.get('password')
+
     # Check if username and password are provided
     if not username or not password:
         return "HTTP/1.1 400 BAD REQUEST\n\nMissing username or password."
 
-    # Attempt to login by asking database for user-pass hash combo
+    # Connect to database (new connection per request)
+    conn = sqlite3.connect('login.db')
+    sessions_conn = sqlite3.connect('sessions.db')
+    login_conn.row_factory = sqlite3.Row
+    def create_session(username):
+     """Create a new session and store it in the database."""
+    session_id = secrets.token_hex(16)
+    expires_at = int(time.time()) + 3600  # 1 hour expiry
+    cursor = sessions_conn.cursor()
+    cursor.execute("INSERT INTO sessions (session_id, username, expires_at) VALUES (?, ?, ?)",
+                   (session_id, username, expires_at))
+    sessions_conn.commit()
+    return session_id
 
-    # connect to database
-    cursor = conn.cursor()
-    # Get this user's salt
-    cursor.execute("SELECT salt, password_hash FROM users WHERE username=?", (username,))
-    # Fetch the result
-    # If the user does not exist, this will return None, a type of Python object that is basically "nothing"
+def get_session(request):
+    """Extract session_id from Cookie header and look up username."""
+    headers = request.split('\r\n')
+    cookies = [h for h in headers if h.lower().startswith('cookie:')]
+    if not cookies:
+        return None
+    cookie_str = cookies[0].split(":", 1)[1].strip()
+    cookie_parts = cookie_str.split(";")
+    session_id = None
+    for part in cookie_parts:
+        if part.strip().startswith("session_id="):
+            session_id = part.strip().split("=", 1)[1]
+            break
+    if not session_id:
+        return None
+    cursor = sessions_conn.cursor()
+    cursor.execute("SELECT username, expires_at FROM sessions WHERE session_id=?", (session_id,))
     result = cursor.fetchone()
+    if result and result[1] > int(time.time()):
+        return result[0]  # username
+    return None
+def render_template(filename, context):
+    """Replace {{key}} in file with context[key]."""
+    content = get_file(filename)
+    if isinstance(content, bytes):
+        content = content.decode()
+    for key, value in context.items():
+        content = content.replace(f"{{{{{key}}}}}", str(value))
+    return content
+     
+
+cursor = conn.cursor()
+
+    # Look up this user
+cursor.execute("SELECT salt, password_hash FROM users WHERE username=?", (username,))
+    result = cursor.fetchone()
+    conn.close()  # always close the connection
+
     if not result:
-        # If the result is None, it means the user does not exist. 
-        # Don't tell the user if it's the username or password that is wrong, just say "login failed"
-        # This is a security measure to prevent attackers from knowing if the username exists.
-        # This prevents brute force attacks where an attacker tries to guess the username and password.
+        # Username not found
         return "HTTP/1.1 401 UNAUTHORIZED\n\nLogin failed: Invalid username or password."
-    # If the user exists, we get the salt and password hash from the database
+
+    # Unpack salt + stored hash
     salt, stored_hash = result
-    # Now we hash the password with the salt we got from the database
+
+    # Hash the given password with the stored salt
     password_hash = hash_password_with_salt(password, salt)
+
+    # Compare hashes
     if password_hash != stored_hash:
         return "HTTP/1.1 401 UNAUTHORIZED\n\nLogin failed: Invalid username or password."
-    return "HTTP/1.1 200 OK\n\nLogin successful!"
+
+    # If everything checks out
+        return "HTTP/1.1 200 OK\n\nLogin successful!"
+
 
 # This route adds a new user to the database
 @route("/api/create_account")
@@ -188,69 +240,19 @@ def start_server():
 
         
 @route("/")
-def get_index():
-    return get_file("index.html")
-
-
-@route("/contact")
-def get_index():
-    return get_file("contact.html")
-
-@route("/about")
-def get_index():
-    return get_file('about.html')
-
-@route("/nowhiring")
-def get_index():
-    return get_file("jointheteam.html")
-    
-@route("/services")
-def get_index():
-    return get_file("services.html")
-
-@route("/signin")
-def get_index():
-    return get_file("signin.html")
-
-@route("/signup")
-def get_index():
-    return get_file("signup.html")
-
-@route("/hair")
-def get_index():
-    return get_file("hair.html")
-
-@route("/housekeeping")
-def get_index():
-    return get_file("housekeeping.html")
-
-@route("/dogsitting")
-def get_index():
-    return get_file("dog_sitting.html")
-
-@route("/babysitting")
-def get_index():
-    return get_file("babysitting.html")
-
-@route("/electrical")
-def get_index():
-    return get_file("Electrical.html")
-
-@route("/plumbing")
-def get_index():
-    return get_file("plumbing.html")
-
-@route("/gardening")
-def get_index():
-    return get_file("gardeningLandscaping.html")
-
-@route("/techsetup")
-def get_index():
-    return get_file("tech_setup.html")
-
-@route("/partyplanning")
-def get_index():
-    return get_file("event_partyplanning.html")
+def index(request=None):
+    """Serve the index page."""
+    username = get_session(request) if request else None
+    cursor = login_conn.cursor()
+    cursor.execute("SELECT first_name, last_name FROM users WHERE username=?", (username,))
+    row = cursor.fetchone()
+    context = {}
+    if row:
+        context = dict(row)  # Convert to dict for easier access
+    else:
+        # If no user is logged in, just return the index without user data
+        context = {"first_name": "Guest", "last_name": "User"}
+    return render_template("index.html", context)
 
 
 
