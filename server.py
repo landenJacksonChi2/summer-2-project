@@ -150,8 +150,14 @@ def login(request):
     if password_hash != stored_hash:
         return "HTTP/1.1 401 UNAUTHORIZED\n\nLogin failed: Invalid username or password."
 
-    # If everything checks out
-    return "HTTP/1.1 200 OK\n\nLogin successful!"
+    # If everything checks out 
+    session_id = create_session(username)
+    return (
+    "HTTP/1.1 200 OK\n"
+    f"Set-Cookie: session_id={session_id}; Path=/; HttpOnly; SameSite=Lax\n"
+    "Content-Type: text/plain\n\n"
+    "Success! Redirecting to home..."
+    )
 
 def create_session(username): 
     """Create a new session and store it in the database."""
@@ -313,5 +319,8 @@ def get_index():
 def get_index():
     return get_file("event_partyplanning.html")
 
+@route("/profile")
+def get_index() :
+    return get_file ("profile.html")  
 
 start_server()
