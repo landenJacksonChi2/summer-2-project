@@ -5,8 +5,9 @@ import hashlib
 import sqlite3
 import secrets
 import time
-conn = sqlite3.connect('login.db')
-
+login_conn = sqlite3.connect('login.db')
+sessions_conn=sqlite3.connect('sessions.db')
+login_conn.row_factory = sqlite3.Row
 ROUTES = {}
 
 def route(path):
@@ -129,11 +130,31 @@ def login(request):
         return "HTTP/1.1 400 BAD REQUEST\n\nMissing username or password."
 
     # Connect to database (new connection per request)
-    conn = sqlite3.connect('login.db')
-    sessions_conn = sqlite3.connect('sessions.db')
-    login_conn.row_factory = sqlite3.Row
-    def create_session(username):
-     """Create a new session and store it in the database."""
+    cursor = login_conn.cursor()
+
+    # Look up this user
+    cursor.execute("SELECT salt, password_hash FROM users WHERE username=?", (username,))
+    result = cursor.fetchone()
+
+    if not result:
+        # Username not found
+        return "HTTP/1.1 401 UNAUTHORIZED\n\nLogin failed: Invalid username or password."
+
+    # Unpack salt + stored hash
+    salt, stored_hash = result
+
+    # Hash the given password with the stored salt
+    password_hash = hash_password_with_salt(password, salt)
+
+    # Compare hashes
+    if password_hash != stored_hash:
+        return "HTTP/1.1 401 UNAUTHORIZED\n\nLogin failed: Invalid username or password."
+
+    # If everything checks out
+    return "HTTP/1.1 200 OK\n\nLogin successful!"
+
+def create_session(username): 
+    """Create a new session and store it in the database."""
     session_id = secrets.token_hex(16)
     expires_at = int(time.time()) + 3600  # 1 hour expiry
     cursor = sessions_conn.cursor()
@@ -173,29 +194,7 @@ def render_template(filename, context):
     return content
      
 
-cursor = conn.cursor()
-
-    # Look up this user
-cursor.execute("SELECT salt, password_hash FROM users WHERE username=?", (username,))
-    result = cursor.fetchone()
-    conn.close()  # always close the connection
-
-    if not result:
-        # Username not found
-        return "HTTP/1.1 401 UNAUTHORIZED\n\nLogin failed: Invalid username or password."
-
-    # Unpack salt + stored hash
-    salt, stored_hash = result
-
-    # Hash the given password with the stored salt
-    password_hash = hash_password_with_salt(password, salt)
-
-    # Compare hashes
-    if password_hash != stored_hash:
-        return "HTTP/1.1 401 UNAUTHORIZED\n\nLogin failed: Invalid username or password."
-
-    # If everything checks out
-        return "HTTP/1.1 200 OK\n\nLogin successful!"
+    
 
 
 # This route adds a new user to the database
@@ -212,12 +211,12 @@ def create_account(request):
     if not username or not password or not first_name or not last_name or not email:
         return "HTTP/1.1 400 BAD REQUEST\n\nMissing required fields."
 
-    cursor = conn.cursor()
+    cursor = login_conn.cursor()
     salt, password_hash = hash_password(password)
     try:
         cursor.execute("INSERT INTO users (username, salt, password_hash, first_name, last_name, email) VALUES (?, ?, ?, ?, ?, ?)",
                        (username, salt, password_hash, first_name, last_name, email))
-        conn.commit()
+        login_conn.commit()
         return "HTTP/1.1 201 CREATED\n\nUser created successfully."
     except sqlite3.IntegrityError:
         return "HTTP/1.1 409 CONFLICT\n\nUsername already exists."
@@ -254,6 +253,65 @@ def index(request=None):
         context = {"first_name": "Guest", "last_name": "User"}
     return render_template("index.html", context)
 
+@route("/contact")
+def get_index():
+    return get_file("contact.html")
+
+@route("/about")
+def get_index():
+    return get_file('about.html')
+
+@route("/nowhiring")
+def get_index():
+    return get_file("jointheteam.html")
+    
+@route("/services")
+def get_index():
+    return get_file("services.html")
+
+@route("/signin")
+def get_index():
+    return get_file("signin.html")
+
+@route("/signup")
+def get_index():
+    return get_file("signup.html")
+
+@route("/hair")
+def get_index():
+    return get_file("hair.html")
+
+@route("/housekeeping")
+def get_index():
+    return get_file("housekeeping.html")
+
+@route("/dogsitting")
+def get_index():
+    return get_file("dog_sitting.html")
+
+@route("/babysitting")
+def get_index():
+    return get_file("babysitting.html")
+
+@route("/electrical")
+def get_index():
+    return get_file("Electrical.html")
+
+@route("/plumbing")
+def get_index():
+    return get_file("plumbing.html")
+
+@route("/gardening")
+def get_index():
+    return get_file("gardeningLandscaping.html")
+
+@route("/techsetup")
+def get_index():
+    return get_file("tech_setup.html")
+
+@route("/partyplanning")
+def get_index():
+    return get_file("event_partyplanning.html")
 
 
 start_server()

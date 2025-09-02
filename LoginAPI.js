@@ -30,43 +30,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // Create account form handler
-    const createForm = document.getElementById('create-account-form');
-    if (createForm) {
-        createForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const form = e.target;
-            const formData = new FormData(form);
-
-            // Check password match
-            if (formData.get('new_password') !== formData.get('confirm_password')) {
-                document.getElementById('create-error-message').textContent = 'Passwords do not match.';
-                return;
-            }
-
-            // Rename fields to match server expectations
-            formData.set('username', formData.get('new_username'));
-            formData.set('password', formData.get('new_password'));
-
-            // Remove fields not needed by server
-            formData.delete('new_username');
-            formData.delete('new_password');
-            formData.delete('confirm_password');
-
-            const params = new URLSearchParams(formData);
-
-            const response = await fetch('/api/create_account', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: params
-            });
-
-            const text = await response.text();
-
-            if (text.includes('User created successfully')) {
-                window.location = '/login';
-            } else {
-                document.getElementById('create-error-message').textContent = text;
-            }
-        });
-    }
-});
+})
