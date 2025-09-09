@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LuxLiving - Contact</title>
-  <link rel="stylesheet" href="/public/css/style.css" />
+    <link rel="stylesheet" href="style.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
 
@@ -21,44 +21,8 @@
       color: #ffffff;
     }
 
- .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 5%;
-      background-color: #ffffff;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+ 
 
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .logo span {
-      color: #0d00ff;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-      margin: 0 auto;
-    }
-
-    .nav-links li a {
-      color: #333;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links li a:hover {
-      color: #0d00ff;
-    }
 
     .auth-buttons {
       display: flex;
@@ -101,14 +65,7 @@
       margin-bottom: 1rem;
     }
 
-    ul {
-      margin-left: 1.5rem;
-    }
-
-    li {
-      margin-bottom: 1rem;
-    }
-
+  
     footer {
       text-align: center;
       padding: 2rem 0;
@@ -117,27 +74,13 @@
       margin-top: 3rem;
     }
 
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+    
 
-      .nav-center {
-        justify-content: flex-start;
-        width: 100%;
-      }
-
-      .nav-links {
-        flex-direction: column;
-        width: 100%;
-        padding-top: 1rem;
-      }
+     
 
       .auth-buttons {
         margin-top: 1rem;
       }
-    }
     
     body {
       font-family: Arial, sans-serif;
@@ -150,36 +93,8 @@
       min-height: 100vh;
     }
 
-    .navbar {
-      background-color: #fff;
-      color: #001f3f;
-      padding: 1rem 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .navbar ul {
-      list-style: none;
-      display: flex;
-      gap: 1rem;
-      margin: 0;
-      padding: 0;
-    }
-
-    .navbar ul li a {
-      color: #001f3f;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #001f3f;
-      text-decoration: none;
-    }
+    
+    
 
     main {
       flex: 1;
@@ -216,18 +131,7 @@
       color: #0d00ff;
     }
 
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .navbar ul {
-        flex-direction: column;
-        gap: 0.5rem;
-        margin-top: 1rem;
-      }
-    }
+    
   </style>
 </head>
 <body>
@@ -243,14 +147,11 @@
         <li><a href="/about" class="active">About</a></li>
         <li><a href="/services">Services</a></li>
         <li><a href="/nowhiring">Now Hiring</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="/contact" class="active">Contact</a></li>
       </ul>
     </div>
 
-    <div class="auth-buttons">
-      <a href="/signup" class="btn-signin">Sign Up</a>
-      <a href="/signin" class="btn-signin">Sign In</a>
-    </div>
+    
   </header>
 
   <!-- Contact Info -->

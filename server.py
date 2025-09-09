@@ -83,10 +83,7 @@ def handle_request(request):
     handler = ROUTES.get(path)
     if handler:
     # Pass the request to /api/login, otherwise call with no arguments
-        if "/api" in path:
-            return handler(request)
-        else:
-            return handler()
+        return handler(request)
     # Check for static files (e.g., /images/filename)
     if request is not None:
         static_response = static_file_route(request)
@@ -260,67 +257,67 @@ def index(request=None):
     return render_template("index.html", context)
 
 @route("/contact")
-def get_index():
+def get_index(request=None):
     return get_file("contact.html")
 
 @route("/about")
-def get_index():
+def get_index(request=None):
     return get_file('about.html')
 
 @route("/nowhiring")
-def get_index():
+def get_index(request=None):
     return get_file("jointheteam.html")
     
 @route("/services")
-def get_index():
+def get_index(request=None):
     return get_file("services.html")
 
 @route("/signin")
-def get_index():
+def get_index(request=None):
     return get_file("signin.html")
 
 @route("/signup")
-def get_index():
+def get_index(request=None):
     return get_file("signup.html")
 
 @route("/hair")
-def get_index():
+def get_index(request=None):
     return get_file("hair.html")
 
 @route("/housekeeping")
-def get_index():
+def get_index(request=None):
     return get_file("housekeeping.html")
 
 @route("/dogsitting")
-def get_index():
+def get_index(request=None):
     return get_file("dog_sitting.html")
 
 @route("/babysitting")
-def get_index():
+def get_index(request=None):
     return get_file("babysitting.html")
 
 @route("/electrical")
-def get_index():
+def get_index(request=None):
     return get_file("Electrical.html")
 
 @route("/plumbing")
-def get_index():
+def get_index(request=None):
     return get_file("plumbing.html")
 
 @route("/gardening")
-def get_index():
+def get_index(request=None):
     return get_file("gardeningLandscaping.html")
 
 @route("/techsetup")
-def get_index():
+def get_index(request=None):
     return get_file("tech_setup.html")
 
 @route("/partyplanning")
-def get_index():
+def get_index(request=None):
     return get_file("event_partyplanning.html")
 
 @route("/profile")
-def get_index() :
+def get_index(request=None):
     return get_file ("profile.html")  
 
 start_server()

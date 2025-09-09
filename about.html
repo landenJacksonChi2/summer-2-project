@@ -18,50 +18,12 @@
       color: #ffffff;
     }
 
- .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 5%;
-      background-color: #ffffff;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+ 
+   
 
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #333;
-    }
+    
 
-    .logo span {
-      color: #0d00ff;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-      margin: 0 auto;
-    }
-
-    .nav-links li a {
-      color: #333;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links li a:hover {
-      color: #0d00ff;
-    }
-
-    .auth-buttons {
-      display: flex;
-      gap: 0.8rem;
-    }
-
+    
     .btn-signin {
       padding: 0.4rem 1rem;
       border: 1px solid #0d00ff;
@@ -98,14 +60,7 @@
       margin-bottom: 1rem;
     }
 
-    ul {
-      margin-left: 1.5rem;
-    }
-
-    li {
-      margin-bottom: 1rem;
-    }
-
+   
     footer {
       text-align: center;
       padding: 2rem 0;
@@ -114,27 +69,10 @@
       margin-top: 3rem;
     }
 
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .nav-center {
-        justify-content: flex-start;
-        width: 100%;
-      }
-
-      .nav-links {
-        flex-direction: column;
-        width: 100%;
-        padding-top: 1rem;
-      }
-
       .auth-buttons {
         margin-top: 1rem;
       }
-    }
+    
   </style>
 </head>
 <body>
@@ -151,11 +89,7 @@
         <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
-
-    <div class="auth-buttons">
-      <a href="/signup" class="btn-signin">Sign Up</a>
-      <a href="/signin" class="btn-signin">Sign In</a>
-    </div>
+    
   </header>
 
   <main class="about">

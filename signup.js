@@ -1,28 +1,34 @@
-document.getElementById('signup-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    // Signup form handler
+    const signupForm = document.getElementById('signup-form');
+    if (signupForm) {
+        signupForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(signupForm);
+            const params = new URLSearchParams(formData);
 
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+            const response = await fetch('/api/create_account', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: params
+            });
 
-    try {
-        const response = await fetch('/auth/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password }),
+            const text = await response.text();
+
+            if (text.includes('User created successfully')) {
+                localStorage.setItem('signupSuccess', 'User created successfully');
+                window.location = '/signin';
+            } else {
+                document.getElementById('error-message').textContent = text;
+            }
         });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            // Redirect to the homepage
-            window.location.href = '/';
-        } else {
-            // Show error message
-            alert(data.error || 'Signup failed. Please try again.');
-        }
-    } catch (err) {
-        console.error('Error:', err);
-        alert('Something went wrong. Please try again later.');
+    }
+    // Show password toggle
+    const showPassword = document.getElementById('show-password');
+    const passwordInput = document.querySelector('input[name="password"]');
+    if (showPassword && passwordInput) {
+        showPassword.addEventListener('change', function() {
+            passwordInput.type = this.checked ? 'text' : 'password';
+        });
     }
 });

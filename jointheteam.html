@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Join the Team · LuxLiving</title>
+    <link rel="stylesheet" href="style.css" />
   <style>
     /* ---------- GLOBAL ---------- */
     * {
@@ -18,49 +19,13 @@
       color: #ffffff;
     }
 
-    a {
-      text-decoration: none;
-    }
+   
 
-    /* ---------- NAVBAR ---------- */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 5%;
-      background-color: #ffffff;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+    
 
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #333;
-    }
+    
 
-    .logo span {
-      color: #0d00ff;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-      margin: 0 auto;
-    }
-
-    .nav-links li a {
-      color: #333;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links li a:hover {
-      color: #0d00ff;
-    }
+   
 
     .auth-buttons {
       display: flex;
@@ -172,17 +137,13 @@
     <div class="nav-center">
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/about" >About</a></li>
         <li><a href="/services">Services</a></li>
-        <li><a href="/nowhiring">Now Hiring</a></li>
+        <li><a href="/nowhiring" class="active">Now Hiring</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
 
-    <div class="auth-buttons">
-      <a href="/signup" class="btn-signin">Sign Up</a>
-      <a href="/signin" class="btn-signin">Sign In</a>
-    </div>
   </header>
 
 
